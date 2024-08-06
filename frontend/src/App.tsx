@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState } from 'react';
 import StyledButton from './App.styles';
 
 function App() {
