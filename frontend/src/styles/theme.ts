@@ -1,7 +1,8 @@
 export const theme = {
     colors: {
-      red: 'red',
+      darkslategray: '#494d55',
       white: '#fff',
+      darkGrey: '#31343a'
     },
   };
   export type Theme = typeof theme;
