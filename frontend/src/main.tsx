@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { ThemeProvider } from 'styled-components';
 import { theme } from './styles/theme';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import GlobalStyles from './styles/GlobalStyles';
 import Home from './pages/home';
 import Teacher from './pages/teacher';
 import CreateCourse from './components/createcourse/CreateCourse';
@@ -10,6 +11,7 @@ import CreateCourse from './components/createcourse/CreateCourse';
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
+    <GlobalStyles />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
