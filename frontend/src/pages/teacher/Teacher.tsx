@@ -1,6 +1,6 @@
 import { Link, Outlet } from 'react-router-dom';
 import Sidebar from '../../components/sidebar';
-import { TeacherContainer } from './Teacher.style';
+import { MainContent, TeacherContainer } from './Teacher.style';
 import { FormOutlined } from '@ant-design/icons';
 
 function Teacher() {
@@ -15,7 +15,9 @@ function Teacher() {
   return (
     <TeacherContainer>
       <Sidebar items={items} />
-      <Outlet />
+      <MainContent>
+        <Outlet/>
+      </MainContent>
     </TeacherContainer>
   );
 }

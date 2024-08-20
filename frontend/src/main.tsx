@@ -6,7 +6,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import GlobalStyles from './styles/GlobalStyles';
 import Home from './pages/home';
 import Teacher from './pages/teacher';
-import CreateCourse from './components/createcourse/CreateCourse';
+import CreateCourse from './components/createcourse';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
