@@ -1,22 +1,42 @@
-using HopeLearnBridge.DataStorage;
+using HopeLearnBridge.Models.Request;
+using HopeLearnBridge.Handlers;
 using Microsoft.AspNetCore.Mvc;
 using HopeLearnBridge.Models;
 
 namespace HopeLearnBridge.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class CourseController : ControllerBase
     {
-        private readonly IDataStorage _dataStorage;
-        public CourseController(IDataStorage dataStorage)
+        private readonly CourseHandler _courseHandler;
+
+        public CourseController(CourseHandler courseHandler)
         {
-            _dataStorage = dataStorage;
+            _courseHandler = courseHandler;
         }
+
         [HttpGet]
-        public async Task<List<Course>> GetCourses()
+        [Route("courses")]
+        public async Task<ActionResult<List<Course>>> GetCourses()
         {
-            return await _dataStorage.GetItemsAsync<Course>(DataStorageConstants.CourseContainerName);
+            return await _courseHandler.GetCourses();
+        }
+
+        [HttpPost]
+        [Route("courses")]
+        public async Task<ActionResult<Course>> CreateCourse(CreateCourseRequest createCourseRequest)
+        {
+            var course = await _courseHandler.CreateCourse(createCourseRequest);
+            return CreatedAtAction(nameof(GetCourse), new { id = course.id }, course);
+        }
+
+        [HttpGet]
+        [Route("courses/{id}")]
+        public async Task<ActionResult<Course>> GetCourse(string id)
+        {
+            return await _courseHandler.GetCourse(id);
         }
     }
 }
