@@ -21,7 +21,7 @@ export const MenuContainer: typeof Menu = styled(Menu)`
 export const SidebarContainer = styled(Sider) `
     background-color:${({ theme }) => theme.colors.darkslategray};
     color:${({ theme }) => theme.colors.white};
-    padding: 25px;
+    padding: 10px;
     height: 100vh;
 `;
 
