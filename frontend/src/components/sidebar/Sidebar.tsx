@@ -8,7 +8,7 @@ const Sidebar: FC<SidebarProps> = ({ items }) => {
   const commonItems: SidebarItem[] = [
     {
       key: 'Courses',
-      label: <Link to="/courses">Courses</Link>,
+      label: <Link to="/teacher">Courses</Link>,
       icon: <ReadOutlined />,
     },
   ];
