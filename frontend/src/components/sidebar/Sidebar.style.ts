@@ -1,6 +1,8 @@
 import { Menu } from 'antd';
-import Sider from 'antd/es/layout/Sider';
+import {Layout} from 'antd';
 import styled from 'styled-components';
+
+const {Sider} = Layout;
 
 export const MenuContainer: typeof Menu = styled(Menu)`
     background-color: ${({ theme }) => theme.colors.darkslategray};
@@ -21,8 +23,12 @@ export const MenuContainer: typeof Menu = styled(Menu)`
 export const SidebarContainer = styled(Sider) `
     background-color:${({ theme }) => theme.colors.darkslategray};
     color:${({ theme }) => theme.colors.white};
-    padding: 10px;
+    padding: 20px;
     height: 100vh;
+    min-width: 300px;
+    max-width: 300px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 `;
 
 export const SidebarHeader = styled.div`

@@ -4,7 +4,7 @@ export const theme = {
       white: '#fff',
       darkGrey: '#31343a',
       purple_7: '#531dab',
-      purple_4: '#b37feb'
+      purple_6: '#722ed1'
     },
   };
   export type Theme = typeof theme;

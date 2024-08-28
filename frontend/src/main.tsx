@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import GlobalStyles from './styles/GlobalStyles';
 import Home from './pages/home';
 import Teacher from './pages/teacher';
+import ViewCourses from './pages/viewcourses';
 import CreateCourse from './components/createcourse';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -16,6 +17,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/teacher" element={<Teacher />}>
+            <Route index element={<ViewCourses />} />
             <Route path="create-course" element={<CreateCourse />} />
           </Route>
         </Routes>

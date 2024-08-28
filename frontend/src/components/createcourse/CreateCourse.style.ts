@@ -20,13 +20,13 @@ export const Label =  styled(Form.Item)`
     .ant-form-item-label > label{
         font-size: 16px;
         font-weight: bold;
-        color: #531dab;
+        color: ${({theme})=>theme.colors.purple_7};
     }
 `;
 
 export const CreateCourseHeader = styled.h2`
     padding-top: 50px;
-    color:#722ed1;
+    color: ${({theme})=>theme.colors.purple_6};
 `;
 
 export const ButtonContainer = styled.div`
@@ -35,13 +35,13 @@ export const ButtonContainer = styled.div`
 `;
 
 export const StyledButton = styled(Button)`
-    background-color: #531dab;
-    color: white;
+    background-color: ${({theme})=>theme.colors.purple_6};
+    color: ${({theme})=>theme.colors.white};
     border:none;
     padding: 10px 25px;
     &:hover {
-    background-color: #531dab !important;
+    background-color: ${({theme})=>theme.colors.purple_7} !important;
     border: none;
-    color: white !important;
+    color: ${({theme})=>theme.colors.white} !important;
     }
 `;

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Cosmos;
 
 var builder = WebApplication.CreateBuilder(args);
+var isLocal = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Local";
 builder.Services.AddControllers();
 builder.Services.AddApiVersioning(options =>
 {
@@ -25,8 +26,26 @@ builder.Services.AddSingleton<ICourseHandler,CourseHandler>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors(options =>{
+    if (isLocal)
+    {
+        options.AddPolicy("HopeLearnBridgeLocalPolicy", policy =>
+        {
+            policy.AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+    }
+    else{
+        options.AddPolicy("HopeLearnBridgeCloudPolicy", policy =>
+        {
+            policy.WithOrigins("http://localhost:5173")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+    }
+});
 var app = builder.Build();
-var isLocal = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Local";
 // Configure the HTTP request pipeline.
 if (isLocal){
     app.UseSwagger();
@@ -34,6 +53,8 @@ if (isLocal){
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(isLocal ? "HopeLearnBridgeLocalPolicy" : "HopeLearnBridgeCloudPolicy");
 
 app.UseAuthorization();
 
