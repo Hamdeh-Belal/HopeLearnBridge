@@ -1,5 +1,5 @@
 import CreateCourse from './CreateCourse';
-import {render} from '@testing-library/react';
+import {render} from '../../utilities/test-utilities';
 import { CREATE_COURSE_ID } from './CreateCourse.const';
 
 describe('CreateCourse Component', () => {

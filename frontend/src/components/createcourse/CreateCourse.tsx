@@ -1,4 +1,5 @@
 import { Input } from 'antd';
+import { useForm } from 'react-hook-form';
 import {
   ButtonContainer,
   CreateCourseContainer,
@@ -7,24 +8,33 @@ import {
   StyledButton,
   StyledForm,
 } from './CreateCourse.style';
+import {CREATE_COURSE_ID } from './CreateCourse.const';
 
-function CreateCourse() {
+const CreateCourse = () => {
+  const { register} = useForm();
+
   return (
-    <CreateCourseContainer data-testid="create">
+    <CreateCourseContainer data-testid={CREATE_COURSE_ID}>
       <CreateCourseHeader>Create a New Course!</CreateCourseHeader>
-      <StyledForm layout="vertical" variant="outlined">
+      <StyledForm layout="vertical">
         <Label name="title" label="Title:">
-          <Input placeholder="Title" />
+          <Input placeholder="Title" {...register('title')} />
         </Label>
         <Label name="description" label="Description:">
-          <Input.TextArea rows={8} placeholder="Description" />
+          <Input.TextArea
+            rows={8}
+            placeholder="Description"
+            {...register('description')}
+          />
         </Label>
         <ButtonContainer>
-          <StyledButton htmlType="submit">Create!</StyledButton>
+          <StyledButton type="primary" htmlType="submit">
+            Create!
+          </StyledButton>
         </ButtonContainer>
       </StyledForm>
     </CreateCourseContainer>
   );
-}
+};
 
 export default CreateCourse;
