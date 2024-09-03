@@ -5,5 +5,9 @@
     "setupFilesAfterEnv": ["<rootDir>/jest.setup.ts"],
     "testEnvironment": "jsdom",
     "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
-    "moduleDirectories": ["node_modules", "src"]
+    "moduleDirectories": ["node_modules", "src"],
+    "moduleNameMapper": {
+        "\\.svg\\?react$": "<rootDir>/__mocks__/svg.ts",
+        "\\.svg$": "<rootDir>/__mocks__/svg.ts"
+    }
 }

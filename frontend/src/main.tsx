@@ -8,20 +8,29 @@ import Home from './pages/home';
 import Teacher from './pages/teacher';
 import ViewCourses from './pages/viewcourses';
 import CreateCourse from './components/createcourse';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import SignUp from './pages/signup';
+import SignIn from './pages/signin';
+
+const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-    <GlobalStyles />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/teacher" element={<Teacher />}>
-            <Route index element={<ViewCourses />} />
-            <Route path="create-course" element={<CreateCourse />} />
-          </Route>
+      <QueryClientProvider client={queryClient}>
+        <GlobalStyles />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/teacher" element={<Teacher />}>
+              <Route index element={<ViewCourses />} />
+              <Route path="create-course" element={<CreateCourse />} />
+            </Route>
+            <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/sign-in" element={<SignIn />} />
         </Routes>
-      </BrowserRouter>
+        </BrowserRouter>
+      </QueryClientProvider>
     </ThemeProvider>
   </React.StrictMode>
 );
