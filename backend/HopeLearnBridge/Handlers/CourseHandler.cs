@@ -15,7 +15,7 @@ namespace HopeLearnBridge.Handlers
 
         public async Task<List<Course>> GetCourses()
         {
-            return await _dataStorage.GetItemsAsync<Course>(DataStorageConstants.CourseContainerName);
+            return await _dataStorage.GetItemsAsync<Course>(DataStorageConstants.CourseContainerName, c => true);
         }
 
         public async Task<Course> CreateCourse(CreateCourseRequest createCourseRequest)
@@ -29,7 +29,7 @@ namespace HopeLearnBridge.Handlers
 
             try
             {
-                return await _dataStorage.UpsertItemAsync(course, DataStorageConstants.CourseContainerName,course.id);
+                return await _dataStorage.UpsertItemAsync(course, DataStorageConstants.CourseContainerName, course.id);
             }
             catch (Exception ex)
             {
@@ -39,14 +39,17 @@ namespace HopeLearnBridge.Handlers
 
         public async Task<Course> GetCourse(string id)
         {
-            var courses = await _dataStorage.GetItemsAsync<Course>(DataStorageConstants.CourseContainerName);
-            var course = courses.FirstOrDefault(c => c.id == id);
+            var courses = await _dataStorage.GetItemsAsync<Course>(
+                DataStorageConstants.CourseContainerName,
+                c => c.id == id
+            );
+            var course = courses.FirstOrDefault();
             if (course == null)
             {
                 throw new InvalidOperationException($"Course with id {id} not found");
             }
+
             return course;
         }
-
     }
 }

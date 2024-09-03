@@ -1,4 +1,5 @@
 using Microsoft.Azure.Cosmos.Linq;
+using System.Linq.Expressions;
 using Microsoft.Azure.Cosmos;
 
 namespace HopeLearnBridge.DataStorage
@@ -13,10 +14,11 @@ namespace HopeLearnBridge.DataStorage
                 ?? throw new ArgumentNullException(nameof(cosmosClient));
         }
 
-        public async Task<List<T>> GetItemsAsync<T>(string containerName)
+        public async Task<List<T>> GetItemsAsync<T>(string containerName, Expression <Func<T,bool>> predicate)
         {
             var container = _database.GetContainer(containerName);
-            var feedIterator = container.GetItemLinqQueryable<T>().Where(item => true).ToFeedIterator();
+            var query= container.GetItemLinqQueryable<T>().Where(predicate);
+            var feedIterator = query.ToFeedIterator();
             List<T> results = new List<T>();
 
             while (feedIterator.HasMoreResults)

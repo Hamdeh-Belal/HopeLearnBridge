@@ -10,9 +10,9 @@ namespace HopeLearnBridge.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class CourseController : ControllerBase
     {
-        private readonly CourseHandler _courseHandler;
+        private readonly ICourseHandler _courseHandler;
 
-        public CourseController(CourseHandler courseHandler)
+        public CourseController(ICourseHandler courseHandler)
         {
             _courseHandler = courseHandler;
         }
