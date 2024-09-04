@@ -3,7 +3,7 @@ using HopeLearnBridge.Models;
 
 namespace HopeLearnBridge.Handlers
 {
-    public interface ICourseHandler
+    public interface ICoursesHandler
     {
         Task<List<Course>> GetCourses();
         Task<Course> CreateCourse(CreateCourseRequest createCourseRequest);

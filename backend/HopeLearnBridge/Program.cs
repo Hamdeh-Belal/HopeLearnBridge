@@ -21,7 +21,7 @@ builder.Services.AddSingleton<CosmosClient>(sp =>
     var key = cosmosDbConfig["Key"];
     return new CosmosClient(account, key);
 });
-builder.Services.AddSingleton<ICourseHandler, CourseHandler>();
+builder.Services.AddSingleton<ICoursesHandler, CoursesHandler>();
 builder.Services.AddSingleton<IUserHandler, UserHandler>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

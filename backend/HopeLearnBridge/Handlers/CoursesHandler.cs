@@ -4,11 +4,11 @@ using HopeLearnBridge.Models;
 
 namespace HopeLearnBridge.Handlers
 {
-    public class CourseHandler : ICourseHandler
+    public class CoursesHandler : ICoursesHandler
     {
         private readonly IDataStorage _dataStorage;
 
-        public CourseHandler(IDataStorage dataStorage)
+        public CoursesHandler(IDataStorage dataStorage)
         {
             _dataStorage = dataStorage;
         }
@@ -39,11 +39,7 @@ namespace HopeLearnBridge.Handlers
 
         public async Task<Course> GetCourse(string id)
         {
-            var courses = await _dataStorage.GetItemsAsync<Course>(
-                DataStorageConstants.CourseContainerName,
-                c => c.id == id
-            );
-            var course = courses.FirstOrDefault();
+            var course = await _dataStorage.ReadItemAsync<Course>(DataStorageConstants.CourseContainerName, id, id);
             if (course == null)
             {
                 throw new InvalidOperationException($"Course with id {id} not found");

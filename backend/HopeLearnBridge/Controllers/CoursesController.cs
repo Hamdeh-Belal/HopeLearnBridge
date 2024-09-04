@@ -8,35 +8,32 @@ namespace HopeLearnBridge.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class CourseController : ControllerBase
+    public class CoursesController : ControllerBase
     {
-        private readonly ICourseHandler _courseHandler;
+        private readonly ICoursesHandler _coursesHandler;
 
-        public CourseController(ICourseHandler courseHandler)
+        public CoursesController(ICoursesHandler coursesHandler)
         {
-            _courseHandler = courseHandler;
+            _coursesHandler = coursesHandler;
         }
 
         [HttpGet]
-        [Route("courses")]
         public async Task<ActionResult<List<Course>>> GetCourses()
         {
-            return await _courseHandler.GetCourses();
+            return await _coursesHandler.GetCourses();
         }
 
         [HttpPost]
-        [Route("courses")]
         public async Task<ActionResult<Course>> CreateCourse(CreateCourseRequest createCourseRequest)
         {
-            var course = await _courseHandler.CreateCourse(createCourseRequest);
+            var course = await _coursesHandler.CreateCourse(createCourseRequest);
             return CreatedAtAction(nameof(GetCourse), new { id = course.id }, course);
         }
 
-        [HttpGet]
-        [Route("courses/{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<Course>> GetCourse(string id)
         {
-            return await _courseHandler.GetCourse(id);
+            return await _coursesHandler.GetCourse(id);
         }
     }
 }
