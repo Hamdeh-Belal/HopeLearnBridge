@@ -7,11 +7,11 @@ namespace HopeLearnBridge.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class UserController : ControllerBase
+    public class UsersController : ControllerBase
     {
-        private readonly IUserHandler _userHandler;
+        private readonly IUsersHandler _userHandler;
 
-        public UserController(IUserHandler userHandler)
+        public UsersController(IUsersHandler userHandler)
         {
             _userHandler = userHandler;
         }
@@ -23,6 +23,21 @@ namespace HopeLearnBridge.Controllers
             {
                 var user = await _userHandler.RegisterAsync(createUserRequest);
                 return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> LoginAsync(LoginRequest loginRequest)
+        {
+            try
+            {
+                var token = await _userHandler.LoginAsync(loginRequest);
+                Response.Headers.Append("Authorization", $"Bearer {token}");
+                return Ok();
             }
             catch (Exception ex)
             {

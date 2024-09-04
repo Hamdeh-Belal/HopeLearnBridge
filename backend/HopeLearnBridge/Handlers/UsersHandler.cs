@@ -7,15 +7,17 @@ using HopeLearnBridge.Models;
 
 namespace HopeLearnBridge.Handlers
 {
-    public class UserHandler : IUserHandler
+    public class UsersHandler : IUsersHandler
     {
         private readonly IDataStorage _dataStorage;
         private readonly PasswordHasher<Users> _passwordHasher;
+        private readonly IJwtHandler _jwtHandler;
 
-        public UserHandler(IDataStorage dataStorage)
+        public UsersHandler(IDataStorage dataStorage, IJwtHandler jwtHandler)
         {
             _dataStorage = dataStorage;
             _passwordHasher = new PasswordHasher<Users>();
+            _jwtHandler = jwtHandler;
         }
 
         public async Task<Users> RegisterAsync(CreateUserRequest createUserRequest)
@@ -50,6 +52,18 @@ namespace HopeLearnBridge.Handlers
             }
 
             return user;
+        }
+        public async Task<string> LoginAsync(LoginRequest loginRequest)
+        {
+            var users = await _dataStorage.GetItemsAsync<Users>(DataStorageConstants.UserContainerName, user => user.Email == loginRequest.Email);
+            var user = users.SingleOrDefault() ?? throw new InvalidOperationException("No user found with the provided email.");
+            var result = _passwordHasher.VerifyHashedPassword(user, user.Password ?? "", loginRequest.Password);
+            if (result == PasswordVerificationResult.Success)
+            {
+                var token = _jwtHandler.GenerateToken(user);
+                return token;
+            }
+            throw new InvalidOperationException("Invalid email or password.");
         }
     }
 }
