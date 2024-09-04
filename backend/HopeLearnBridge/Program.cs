@@ -13,7 +13,6 @@ builder.Services.AddApiVersioning(options =>
     options.ReportApiVersions = true;
 });
 builder.Services.AddSingleton<IDataStorage, CosmosDataStorage>();
-builder.Services.AddSingleton<CourseHandler>();
 builder.Services.AddSingleton<CosmosClient>(sp =>
 {
     var configuration = sp.GetRequiredService<IConfiguration>();
@@ -22,11 +21,12 @@ builder.Services.AddSingleton<CosmosClient>(sp =>
     var key = cosmosDbConfig["Key"];
     return new CosmosClient(account, key);
 });
-builder.Services.AddSingleton<ICourseHandler,CourseHandler>();
-
+builder.Services.AddSingleton<ICoursesHandler, CoursesHandler>();
+builder.Services.AddSingleton<IUserHandler, UserHandler>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddCors(options =>{
+builder.Services.AddCors(options =>
+{
     if (isLocal)
     {
         options.AddPolicy("HopeLearnBridgeLocalPolicy", policy =>
@@ -36,7 +36,8 @@ builder.Services.AddCors(options =>{
                 .AllowAnyMethod();
         });
     }
-    else{
+    else
+    {
         options.AddPolicy("HopeLearnBridgeCloudPolicy", policy =>
         {
             policy.WithOrigins("http://localhost:5173")
@@ -45,9 +46,12 @@ builder.Services.AddCors(options =>{
         });
     }
 });
+
+
 var app = builder.Build();
 // Configure the HTTP request pipeline.
-if (isLocal){
+if (isLocal)
+{
     app.UseSwagger();
     app.UseSwaggerUI();
 }
@@ -56,6 +60,7 @@ app.UseHttpsRedirection();
 
 app.UseCors(isLocal ? "HopeLearnBridgeLocalPolicy" : "HopeLearnBridgeCloudPolicy");
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

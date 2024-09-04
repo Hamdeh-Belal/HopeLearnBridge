@@ -7,10 +7,13 @@ import {
   RightColumn,
   SignInContainer,
 } from './SignIn.style';
+import SignInForm from '../../components/signinform/SignInForm';
 const SignIn: FC<SignInProps> = ({ className }) => {
   return (
     <SignInContainer className={className} data-testid={SIGN_IN_TEST_ID}>
-      <LeftColumn span="12"></LeftColumn>
+      <LeftColumn span="12">
+        <SignInForm/>
+      </LeftColumn>
       <RightColumn span="12">
         <ImgContainer>
           <SignInImg />
