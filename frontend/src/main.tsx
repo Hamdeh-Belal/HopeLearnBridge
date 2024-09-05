@@ -9,7 +9,7 @@ import Teacher from './pages/teacher';
 import ViewCourses from './pages/viewcourses';
 import CreateCourse from './components/createcourse';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import SignUp from './pages/signup';
+import Signup from './pages/signup';
 import SignIn from './pages/signin';
 
 const queryClient = new QueryClient();
@@ -26,7 +26,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
               <Route index element={<ViewCourses />} />
               <Route path="create-course" element={<CreateCourse />} />
             </Route>
-            <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/sign-up" element={<Signup />} />
             <Route path="/sign-in" element={<SignIn />} />
         </Routes>
         </BrowserRouter>

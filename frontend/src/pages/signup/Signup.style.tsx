@@ -1,7 +1,7 @@
 import { Col, Row } from 'antd';
 import styled from 'styled-components';
 
-export const SignUpContainer = styled(Row)`
+export const SignupContainer = styled(Row)`
   height: 100vh;
 `;
 
