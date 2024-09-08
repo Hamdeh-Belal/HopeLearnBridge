@@ -2,6 +2,6 @@ namespace HopeLearnBridge.Models
 {
     public class Teacher : Users
     {
-        public List<String> CourseIds;
+        public List<String>? CourseIds;
     }
 }

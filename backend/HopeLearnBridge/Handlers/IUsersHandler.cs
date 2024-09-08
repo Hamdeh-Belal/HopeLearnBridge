@@ -7,5 +7,6 @@ namespace HopeLearnBridge.Handlers
     {
         Task<Users> RegisterAsync(CreateUserRequest createUserRequest);
         Task<string> LoginAsync(LoginRequest loginRequest);
+        Task<bool> ResetPasswordAsync(ResetPasswordRequest request, string email);
     }
 }

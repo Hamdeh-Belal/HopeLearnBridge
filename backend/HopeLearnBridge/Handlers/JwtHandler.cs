@@ -23,8 +23,8 @@ namespace HopeLearnBridge.Handlers
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                    new Claim("Id", Guid.NewGuid().ToString()),
-                    new Claim(JwtRegisteredClaimNames.Email, user.Email ?? ""),
+                    new Claim("Id", user.id ?? string.Empty),
+                    new Claim(JwtRegisteredClaimNames.Email, user.Email  ?? string.Empty),
                     new Claim("role", user.Role.ToString()),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                 }),
