@@ -15,7 +15,7 @@ namespace HopeLearnBridge.Handlers
         {
             _jwtSettings = jwtSettings.Value;
         }
-        public string GenerateToken(Users user)
+        public string GenerateToken(User user)
         {
             var key = _jwtSettings.SecretKey != null ? Encoding.UTF8.GetBytes(_jwtSettings.SecretKey) : null;
 

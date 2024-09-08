@@ -1,7 +1,7 @@
 using HopeLearnBridge.Models.Enums;
 namespace HopeLearnBridge.Models
 {
-    public class Users
+    public class User
     {
         public string? id { get; set; }
         public string? FirstName { get; set; }

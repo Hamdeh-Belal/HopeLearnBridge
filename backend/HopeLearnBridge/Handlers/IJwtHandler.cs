@@ -4,6 +4,6 @@ namespace HopeLearnBridge.Handlers
 {
     public interface IJwtHandler
     {
-        string GenerateToken(Users user);
+        string GenerateToken(User user);
     }
 }
