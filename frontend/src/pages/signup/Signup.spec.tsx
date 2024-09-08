@@ -1,10 +1,10 @@
 import { render} from '../../utilities/test-utilities';
-import SignUp from './SignUp';
-import { SIGN_UP_TEST_ID } from './SignUp.const';
+import Signup from './Signup';
+import { SIGN_UP_TEST_ID } from './Signup.const';
 
-describe('SignUp page', () => {
+describe('Signup page', () => {
   test('Should render sign up page', async () => {
-    const{getByTestId}=render(<SignUp/>);
+    const{getByTestId}=render(<Signup/>);
       expect(getByTestId(SIGN_UP_TEST_ID)).toBeInTheDocument();
   });
 });

@@ -1,7 +1,6 @@
 import { CourseFormData} from '../../components/createcourse/CreateCourse.const';
-import { Course } from '../interfaces/cources/Icourse';
+import { Course } from '../../interfaces/course/ICourse';
 import axiosInstance from './AxiosInstance';
-
 
 export const coursesControllersUrls = {
   createCourse: () => 'Course/courses',

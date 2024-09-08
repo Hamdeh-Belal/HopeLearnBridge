@@ -3,8 +3,10 @@ using HopeLearnBridge.Models;
 
 namespace HopeLearnBridge.Handlers
 {
-    public interface IUserHandler
+    public interface IUsersHandler
     {
         Task<Users> RegisterAsync(CreateUserRequest createUserRequest);
+        Task<string> LoginAsync(LoginRequest loginRequest);
+        Task<bool> ResetPasswordAsync(ResetPasswordRequest request, string email);
     }
 }

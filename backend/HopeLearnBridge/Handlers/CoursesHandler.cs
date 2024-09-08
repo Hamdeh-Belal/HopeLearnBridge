@@ -24,7 +24,8 @@ namespace HopeLearnBridge.Handlers
             {
                 id = Guid.NewGuid().ToString(),
                 Title = createCourseRequest.Title,
-                Description = createCourseRequest.Description
+                Description = createCourseRequest.Description,
+                TeacherId = createCourseRequest.TeacherId
             };
 
             try

@@ -1,12 +1,12 @@
 import { Button, Form } from 'antd';
 import styled from 'styled-components';
 
-export const SignUpTitle = styled.div`
+export const SignupTitle = styled.div`
   margin-bottom: 30px;
   font-size: 48px;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
 `;
-export const SignUpFormContainer = styled.div`
+export const SignupFormContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -25,7 +25,7 @@ export const Label = styled(Form.Item)`
   }
 `;
 
-export const SignUpButton = styled(Button)`
+export const SignupButton = styled(Button)`
   width: 100%;
   background-color: ${({ theme }) => theme.colors.purple_6};
   color: ${({ theme }) => theme.colors.white};

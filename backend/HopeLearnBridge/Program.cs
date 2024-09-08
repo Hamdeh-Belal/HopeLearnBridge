@@ -1,10 +1,36 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using HopeLearnBridge.DataStorage;
 using HopeLearnBridge.Handlers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Cosmos;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 var isLocal = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Local";
+var jwtSettings = builder.Configuration.GetSection("JWT");
+var secretKey = jwtSettings["SecretKey"];
+var issuer = jwtSettings["Issuer"];
+var audience = jwtSettings["Audience"];
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = issuer,
+        ValidAudience = audience,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey ?? ""))
+    };
+});
+builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JWT"));
 builder.Services.AddControllers();
 builder.Services.AddApiVersioning(options =>
 {
@@ -22,7 +48,8 @@ builder.Services.AddSingleton<CosmosClient>(sp =>
     return new CosmosClient(account, key);
 });
 builder.Services.AddSingleton<ICoursesHandler, CoursesHandler>();
-builder.Services.AddSingleton<IUserHandler, UserHandler>();
+builder.Services.AddSingleton<IUsersHandler, UsersHandler>();
+builder.Services.AddSingleton<IJwtHandler, JwtHandler>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options =>
@@ -46,7 +73,6 @@ builder.Services.AddCors(options =>
         });
     }
 });
-
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.

@@ -1,5 +1,5 @@
 export const SIGN_UP_TEST_ID = 'sign-up';
 
-export interface SignUpProps {
+export interface SignupProps {
     className?: string;
 }
