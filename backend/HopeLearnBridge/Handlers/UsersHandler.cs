@@ -9,20 +9,20 @@ namespace HopeLearnBridge.Handlers
     public class UsersHandler : IUsersHandler
     {
         private readonly IDataStorage _dataStorage;
-        private readonly PasswordHasher<Users> _passwordHasher;
+        private readonly PasswordHasher<User> _passwordHasher;
         private readonly IJwtHandler _jwtHandler;
 
         public UsersHandler(IDataStorage dataStorage, IJwtHandler jwtHandler)
         {
             _dataStorage = dataStorage;
-            _passwordHasher = new PasswordHasher<Users>();
+            _passwordHasher = new PasswordHasher<User>();
             _jwtHandler = jwtHandler;
         }
 
-        public async Task<Users> RegisterAsync(CreateUserRequest createUserRequest)
+        public async Task<User> RegisterAsync(CreateUserRequest createUserRequest)
         {
 
-            var usersWithSameEmail = await _dataStorage.GetItemsAsync<Users>(DataStorageConstants.UserContainerName, user => user.Email == createUserRequest.Email);
+            var usersWithSameEmail = await _dataStorage.GetItemsAsync<User>(DataStorageConstants.UserContainerName, user => user.Email == createUserRequest.Email);
             if (usersWithSameEmail.Any())
             {
                 throw new InvalidOperationException("User with the same email already exists.");
@@ -31,7 +31,7 @@ namespace HopeLearnBridge.Handlers
             {
                 throw new ArgumentException("Invalid role specified.");
             }
-            var user = new Users
+            var user = new User
             {
                 id = Guid.NewGuid().ToString(),
                 FirstName = createUserRequest.FirstName,
@@ -55,7 +55,7 @@ namespace HopeLearnBridge.Handlers
 
         public async Task<string> LoginAsync(LoginRequest loginRequest)
         {
-            var users = await _dataStorage.GetItemsAsync<Users>(DataStorageConstants.UserContainerName, user => user.Email == loginRequest.Email);
+            var users = await _dataStorage.GetItemsAsync<User>(DataStorageConstants.UserContainerName, user => user.Email == loginRequest.Email);
             var user = users.SingleOrDefault() ?? throw new InvalidOperationException("No user found with the provided email.");
             var result = _passwordHasher.VerifyHashedPassword(user, user.Password  ?? string.Empty, loginRequest.Password);
             if (result == PasswordVerificationResult.Success)
@@ -68,7 +68,7 @@ namespace HopeLearnBridge.Handlers
 
         public async Task<bool> ResetPasswordAsync(ResetPasswordRequest request, string email)
         {
-            var users = await _dataStorage.GetItemsAsync<Users>(DataStorageConstants.UserContainerName, user => user.Email == email);
+            var users = await _dataStorage.GetItemsAsync<User>(DataStorageConstants.UserContainerName, user => user.Email == email);
             var user = users.SingleOrDefault() ?? throw new InvalidOperationException("No user found with the provided email and ID.");
             var verificationResult = _passwordHasher.VerifyHashedPassword(user, user.Password  ?? string.Empty, request.OldPassword);
             if (verificationResult != PasswordVerificationResult.Success)

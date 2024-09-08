@@ -11,11 +11,11 @@ namespace HopeLearnBridge.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class UsersController : ControllerBase
     {
-        private readonly IUsersHandler _userHandler;
+        private readonly IUsersHandler _usersHandler;
 
         public UsersController(IUsersHandler userHandler)
         {
-            _userHandler = userHandler;
+            _usersHandler = userHandler;
         }
 
         [HttpPost("register")]
@@ -23,7 +23,7 @@ namespace HopeLearnBridge.Controllers
         {
             try
             {
-                var user = await _userHandler.RegisterAsync(createUserRequest);
+                var user = await _usersHandler.RegisterAsync(createUserRequest);
                 return Ok(user);
             }
             catch (Exception ex)
@@ -37,7 +37,7 @@ namespace HopeLearnBridge.Controllers
         {
             try
             {
-                var token = await _userHandler.LoginAsync(loginRequest);
+                var token = await _usersHandler.LoginAsync(loginRequest);
                 Response.Headers.Append("Authorization", $"Bearer {token}");
                 return Ok();
             }
@@ -54,7 +54,7 @@ namespace HopeLearnBridge.Controllers
             var email = User?.FindFirst(ClaimTypes.Email)?.Value;
             try
             {
-                var result = await _userHandler.ResetPasswordAsync(request, email ?? string.Empty);
+                var result = await _usersHandler.ResetPasswordAsync(request, email ?? string.Empty);
                 if (result)
                 {
                     return Ok(new { Message = "Password updated successfully!" });
