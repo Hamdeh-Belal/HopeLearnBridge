@@ -2,6 +2,6 @@ namespace HopeLearnBridge.Models
 {
     public class Teacher : User
     {
-        public List<String>? CoursesIds;
+        public HashSet<String> CoursesIds {get;} = new HashSet<string>();
     }
 }

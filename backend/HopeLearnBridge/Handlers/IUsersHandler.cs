@@ -1,12 +1,14 @@
 using HopeLearnBridge.Models.Request;
 using HopeLearnBridge.Models;
+using HopeLearnBridge.Models.Enums;
 
 namespace HopeLearnBridge.Handlers
 {
     public interface IUsersHandler
     {
         Task<User> RegisterAsync(CreateUserRequest createUserRequest);
-        Task<string> LoginAsync(LoginRequest loginRequest);
+        Task<(string token, UserRole role)> LoginAsync(LoginRequest loginRequest);
         Task<bool> ResetPasswordAsync(ResetPasswordRequest request, string email);
+
     }
 }

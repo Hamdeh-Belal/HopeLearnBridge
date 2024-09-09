@@ -5,5 +5,6 @@ namespace HopeLearnBridge.DataStorage
         public const string DatabaseName = "HopeLearnBridgeDB";
         public const string CourseContainerName = "Courses";
         public const string UserContainerName = "Users";
+        public const string StudentContainerName = "Student";
     }
 }

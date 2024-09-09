@@ -1,6 +1,6 @@
 import { render} from '../../utilities/test-utilities';
-import SignIn from './SignIn';
-import { SIGN_IN_TEST_ID } from './SignIn.const';
+import SignIn from './Signin';
+import { SIGN_IN_TEST_ID } from './Signin.const';
 
 describe('SignIn page', () => {
   test('Should render sign in page', async () => {

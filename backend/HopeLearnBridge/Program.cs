@@ -50,6 +50,7 @@ builder.Services.AddSingleton<CosmosClient>(sp =>
 builder.Services.AddSingleton<ICoursesHandler, CoursesHandler>();
 builder.Services.AddSingleton<IUsersHandler, UsersHandler>();
 builder.Services.AddSingleton<IJwtHandler, JwtHandler>();
+builder.Services.AddSingleton<IStudentsHandler, StudentsHandler>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options =>

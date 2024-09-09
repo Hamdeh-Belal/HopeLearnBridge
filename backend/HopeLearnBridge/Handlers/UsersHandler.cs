@@ -52,8 +52,7 @@ namespace HopeLearnBridge.Handlers
 
             return user;
         }
-
-        public async Task<string> LoginAsync(LoginRequest loginRequest)
+        public async Task<(string token, UserRole role)> LoginAsync(LoginRequest loginRequest)
         {
             var users = await _dataStorage.GetItemsAsync<User>(DataStorageConstants.UserContainerName, user => user.Email == loginRequest.Email);
             var user = users.SingleOrDefault() ?? throw new InvalidOperationException("No user found with the provided email.");
@@ -61,7 +60,7 @@ namespace HopeLearnBridge.Handlers
             if (result == PasswordVerificationResult.Success)
             {
                 var token = _jwtHandler.GenerateToken(user);
-                return token;
+                return (token, user.Role);
             }
             throw new InvalidOperationException("Invalid email or password.");
         }
