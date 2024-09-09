@@ -37,9 +37,8 @@ namespace HopeLearnBridge.Controllers
         {
             try
             {
-                var token = await _usersHandler.LoginAsync(loginRequest);
-                Response.Headers.Append("Authorization", $"Bearer {token}");
-                return Ok();
+                var (token, role) = await _usersHandler.LoginAsync(loginRequest);
+                return Ok(new { token, role = role.ToString() });
             }
             catch (Exception ex)
             {

@@ -1,7 +1,7 @@
 import { Button, Form } from 'antd';
 import styled from 'styled-components';
 
-export const SignInFormContainer = styled.div`
+export const SigninFormContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -11,11 +11,11 @@ export const SignInFormContainer = styled.div`
   color: ${({ theme }) => theme.colors.purple_6};
 `;
 
-export const SignInStyledForm: typeof Form = styled(Form)`
+export const SigninStyledForm: typeof Form = styled(Form)`
     width:60%;
 `;
 
-export const SignInTitle = styled.div`
+export const SigninTitle = styled.div`
   margin-bottom: 30px;
   font-size: 48px;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
