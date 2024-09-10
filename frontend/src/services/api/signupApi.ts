@@ -10,7 +10,7 @@ export interface SignupFormData {
 }
 
 export const signUpControllersUrls = {
-  signup: () => 'User/register',
+  signup: () => 'Users/register',
 };
 
 export const signup = async(userData:SignupFormData): Promise<User> => {
