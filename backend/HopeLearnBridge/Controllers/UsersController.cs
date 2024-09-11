@@ -66,5 +66,19 @@ namespace HopeLearnBridge.Controllers
                 return BadRequest(new { Message = ex.Message });
             }
         }
+
+        [HttpPost("forgotPassword")]
+        public async Task<IActionResult> ForgotPasswordAsync(ForgetPasswordRequest request)
+        {
+            try
+            {
+                await _usersHandler.ForgotPasswordAsync(request.Email);
+                return Ok(new { Message = "Password reset link sent to your email." });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
+        }
     }
 }

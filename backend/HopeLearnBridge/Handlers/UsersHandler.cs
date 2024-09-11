@@ -8,15 +8,17 @@ namespace HopeLearnBridge.Handlers
 {
     public class UsersHandler : IUsersHandler
     {
-        private readonly IDataStorage _dataStorage;
         private readonly PasswordHasher<User> _passwordHasher;
+        private readonly IEmailHandler _emailHandler;
+        private readonly IDataStorage _dataStorage;
         private readonly IJwtHandler _jwtHandler;
-
-        public UsersHandler(IDataStorage dataStorage, IJwtHandler jwtHandler)
+        public UsersHandler(IDataStorage dataStorage, IJwtHandler jwtHandler, IEmailHandler emailService)
         {
-            _dataStorage = dataStorage;
             _passwordHasher = new PasswordHasher<User>();
+            _emailHandler = emailService;
+            _dataStorage = dataStorage;
             _jwtHandler = jwtHandler;
+
         }
 
         public async Task<User> RegisterAsync(CreateUserRequest createUserRequest)
@@ -52,11 +54,12 @@ namespace HopeLearnBridge.Handlers
 
             return user;
         }
+
         public async Task<(string token, UserRole role)> LoginAsync(LoginRequest loginRequest)
         {
             var users = await _dataStorage.GetItemsAsync<User>(DataStorageConstants.UserContainerName, user => user.Email == loginRequest.Email);
             var user = users.SingleOrDefault() ?? throw new InvalidOperationException("No user found with the provided email.");
-            var result = _passwordHasher.VerifyHashedPassword(user, user.Password  ?? string.Empty, loginRequest.Password);
+            var result = _passwordHasher.VerifyHashedPassword(user, user.Password ?? string.Empty, loginRequest.Password);
             if (result == PasswordVerificationResult.Success)
             {
                 var token = _jwtHandler.GenerateToken(user);
@@ -69,7 +72,7 @@ namespace HopeLearnBridge.Handlers
         {
             var users = await _dataStorage.GetItemsAsync<User>(DataStorageConstants.UserContainerName, user => user.Email == email);
             var user = users.SingleOrDefault() ?? throw new InvalidOperationException("No user found with the provided email and ID.");
-            var verificationResult = _passwordHasher.VerifyHashedPassword(user, user.Password  ?? string.Empty, request.OldPassword);
+            var verificationResult = _passwordHasher.VerifyHashedPassword(user, user.Password ?? string.Empty, request.OldPassword);
             if (verificationResult != PasswordVerificationResult.Success)
             {
                 throw new InvalidOperationException("Invalid old password.");
@@ -83,12 +86,47 @@ namespace HopeLearnBridge.Handlers
             user.Password = _passwordHasher.HashPassword(user, request.NewPassword);
             try
             {
-                await _dataStorage.UpsertItemAsync(user, DataStorageConstants.UserContainerName, user.id  ?? string.Empty);
+                await _dataStorage.UpsertItemAsync(user, DataStorageConstants.UserContainerName, user.id ?? string.Empty);
                 return true;
             }
             catch (Exception ex)
             {
                 throw new InvalidOperationException($"Error creating new user: {ex.Message}", ex);
+            }
+        }
+        public async Task<bool> ForgotPasswordAsync(string email)
+        {
+            var users = await _dataStorage.GetItemsAsync<User>(DataStorageConstants.UserContainerName, user => user.Email == email);
+            var user = users.SingleOrDefault() ?? throw new InvalidOperationException("No user found with the provided email.");
+
+            var resetToken = Guid.NewGuid().ToString();
+            try
+            {
+                await SendPasswordResetEmailAsync(user.Email ?? string.Empty, resetToken);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException($"Error sending password reset email: {ex.Message}", ex);
+            }
+        }
+        public async Task SendPasswordResetEmailAsync(string email, string resetToken)
+        {
+            // Generate the password reset link with the token
+            ///////////////////////////////////////////////////////////////
+            // The current implementation just sends the reset link via email.////////
+            ///////////////////////////////////////////////////////////////
+            // Future task will involve implementing front end functionality to read the token,
+            // allow the user to enter a new password, and update the password after verifying the token.
+            var resetLink = $"https://Myapp.com/resetPassword?token={resetToken}";
+            var message = $"Please use the following link to reset your password: {resetLink}";
+            try
+            {
+                await _emailHandler.SendEmailAsync(email, "Password Reset Request", message);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException($"Error sending email: {ex.Message}", ex);
             }
         }
     }
