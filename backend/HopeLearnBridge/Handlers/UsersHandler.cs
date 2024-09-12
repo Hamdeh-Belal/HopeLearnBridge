@@ -23,7 +23,6 @@ namespace HopeLearnBridge.Handlers
 
         public async Task<User> RegisterAsync(CreateUserRequest createUserRequest)
         {
-
             var usersWithSameEmail = await _dataStorage.GetItemsAsync<User>(DataStorageConstants.UserContainerName, user => user.Email == createUserRequest.Email);
             if (usersWithSameEmail.Any())
             {
@@ -33,26 +32,56 @@ namespace HopeLearnBridge.Handlers
             {
                 throw new ArgumentException("Invalid role specified.");
             }
-            var user = new User
+            if (role == UserRole.Student)
             {
-                id = Guid.NewGuid().ToString(),
-                FirstName = createUserRequest.FirstName,
-                LastName = createUserRequest.LastName,
-                Email = createUserRequest.Email,
-                Role = role
-            };
-            user.Password = _passwordHasher.HashPassword(user, createUserRequest.Password);
+                var student = new Student
+                {
+                    id = Guid.NewGuid().ToString(),
+                    FirstName = createUserRequest.FirstName,
+                    LastName = createUserRequest.LastName,
+                    Email = createUserRequest.Email,
+                    Role = role,
+                };
+                student.Password = _passwordHasher.HashPassword(student, createUserRequest.Password);
 
-            try
-            {
-                await _dataStorage.UpsertItemAsync(user, DataStorageConstants.UserContainerName, user.id);
-            }
-            catch (Exception ex)
-            {
-                throw new InvalidOperationException($"Error creating new user: {ex.Message}", ex);
-            }
+                try
+                {
+                    await _dataStorage.UpsertItemAsync(student, DataStorageConstants.UserContainerName, student.id);
+                }
+                catch (Exception ex)
+                {
+                    throw new InvalidOperationException($"Error creating new student: {ex.Message}", ex);
+                }
 
-            return user;
+                return student;
+            }
+            else if (role == UserRole.Teacher)
+            {
+                var user = new User
+                {
+                    id = Guid.NewGuid().ToString(),
+                    FirstName = createUserRequest.FirstName,
+                    LastName = createUserRequest.LastName,
+                    Email = createUserRequest.Email,
+                    Role = role
+                };
+
+                user.Password = _passwordHasher.HashPassword(user, createUserRequest.Password);
+                try
+                {
+                    await _dataStorage.UpsertItemAsync(user, DataStorageConstants.UserContainerName, user.id);
+                }
+                catch (Exception ex)
+                {
+                    throw new InvalidOperationException($"Error creating new teacher: {ex.Message}", ex);
+                }
+
+                return user;
+            }
+            else
+            {
+                throw new InvalidOperationException("Unsupported user role.");
+            }
         }
 
         public async Task<(string token, UserRole role)> LoginAsync(LoginRequest loginRequest)

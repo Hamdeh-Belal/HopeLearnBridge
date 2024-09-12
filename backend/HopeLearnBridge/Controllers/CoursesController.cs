@@ -43,11 +43,6 @@ namespace HopeLearnBridge.Controllers
         [Authorize(Roles = "Teacher")]
         public async Task<ActionResult<Course>> CreateCourse(CreateCourseRequest createCourseRequest)
         {
-            var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
-            if (userRole != "Teacher")
-            {
-                return BadRequest("Only teachers can create courses");
-            }
             var teacherId = User.FindFirst("Id")?.Value;
             var course = await _coursesHandler.CreateCourse(createCourseRequest, teacherId ?? string.Empty);
             return CreatedAtAction(nameof(GetCourse), new { id = course.id }, course);
