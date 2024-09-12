@@ -3,8 +3,8 @@ import { Course } from '../../interfaces/course/ICourse';
 import axiosInstance from './AxiosInstance';
 
 export const coursesControllersUrls = {
-  createCourse: () => 'Courses',
-  viewCourses: () => 'Courses'
+  createCourse: () => 'Courses/createCourse',
+  viewCourses: () => 'Courses/getCourses'
 };
 
 export const createCourse = async(courseData: CourseFormData):Promise<Course> => {
