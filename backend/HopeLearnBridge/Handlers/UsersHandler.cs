@@ -98,10 +98,14 @@ namespace HopeLearnBridge.Handlers
         {
             var users = await _dataStorage.GetItemsAsync<User>(DataStorageConstants.UserContainerName, user => user.Email == email);
             var user = users.SingleOrDefault() ?? throw new InvalidOperationException("No user found with the provided email.");
-
             var resetToken = Guid.NewGuid().ToString();
+            var tokenExpiration = DateTime.UtcNow.AddMinutes(2);
+            user.ResetToken = resetToken;
+            user.TokenExpiration = tokenExpiration;
+
             try
             {
+                await _dataStorage.UpsertItemAsync(user, DataStorageConstants.UserContainerName, user.id ?? string.Empty);
                 await SendPasswordResetEmailAsync(user.Email ?? string.Empty, resetToken);
                 return true;
             }
@@ -110,14 +114,9 @@ namespace HopeLearnBridge.Handlers
                 throw new InvalidOperationException($"Error sending password reset email: {ex.Message}", ex);
             }
         }
+
         public async Task SendPasswordResetEmailAsync(string email, string resetToken)
         {
-            // Generate the password reset link with the token
-            ///////////////////////////////////////////////////////////////
-            // The current implementation just sends the reset link via email.////////
-            ///////////////////////////////////////////////////////////////
-            // Future task will involve implementing front end functionality to read the token,
-            // allow the user to enter a new password, and update the password after verifying the token.
             var resetLink = $"https://Myapp.com/resetPassword?token={resetToken}";
             var message = $"Please use the following link to reset your password: {resetLink}";
             try
@@ -127,6 +126,29 @@ namespace HopeLearnBridge.Handlers
             catch (Exception ex)
             {
                 throw new InvalidOperationException($"Error sending email: {ex.Message}", ex);
+            }
+        }
+
+        public async Task<bool> ConfirmResetPasswordAsync(string resetToken, string newPassword)
+        {
+            var users = await _dataStorage.GetItemsAsync<User>(DataStorageConstants.UserContainerName, user => user.ResetToken == resetToken);
+            var user = users.SingleOrDefault() ?? throw new InvalidOperationException("Invalid token.");
+            if (user.TokenExpiration < DateTime.UtcNow)
+            {
+                throw new InvalidOperationException("Reset token has expired.");
+            }
+
+            user.Password = _passwordHasher.HashPassword(user, newPassword);
+            user.ResetToken = null;
+            user.TokenExpiration = null;
+            try
+            {
+                await _dataStorage.UpsertItemAsync(user, DataStorageConstants.UserContainerName, user.id ?? string.Empty);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException($"Error updating password: {ex.Message}", ex);
             }
         }
     }

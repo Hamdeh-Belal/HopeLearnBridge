@@ -80,5 +80,25 @@ namespace HopeLearnBridge.Controllers
                 return BadRequest(new { Message = ex.Message });
             }
         }
+        
+        [HttpPost("confirmResetPassword")]
+        public async Task<IActionResult> ConfirmResetPasswordAsync(ConfirmResetPasswordRequest request)
+        {
+            try
+            {
+                var result = await _usersHandler.ConfirmResetPasswordAsync(request.Token, request.NewPassword);
+                if (result)
+                {
+                    return Ok(new { Message = "Password has been reset successfully!" });
+                }
+
+                return BadRequest(new { Message = "Error resetting password." });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
+        }
+
     }
 }

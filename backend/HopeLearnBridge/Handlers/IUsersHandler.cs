@@ -11,5 +11,6 @@ namespace HopeLearnBridge.Handlers
         Task<bool> ResetPasswordAsync(ResetPasswordRequest request, string email);
         Task<bool> ForgotPasswordAsync(string email);
         Task SendPasswordResetEmailAsync(string email, string token);
+        Task<bool> ConfirmResetPasswordAsync(string token, string newPassword);
     }
 }

@@ -1,9 +1,7 @@
-using MailKit.Net.Smtp;
-using MimeKit;
-using MimeKit.Text;
 using MailKit.Security;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
+using MailKit.Net.Smtp;
+using MimeKit.Text;
+using MimeKit;
 
 namespace HopeLearnBridge.Handlers
 {
@@ -15,7 +13,7 @@ namespace HopeLearnBridge.Handlers
         {
             _configuration = configuration;
         }
-
+        
         public async Task SendEmailAsync(string recipientEmail, string subject, string message)
         {
             var host = _configuration["SmtpSettings:Host"];
