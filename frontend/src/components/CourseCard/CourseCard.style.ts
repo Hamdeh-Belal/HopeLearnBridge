@@ -1,9 +1,10 @@
-import { Button, Card } from 'antd';
+import { Card } from 'antd';
 import styled from 'styled-components';
+
+const {Meta} = Card;
 
 export const StyledCard = styled(Card)`
   width: 250px;
-  height: 300px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -31,31 +32,6 @@ export const CardCover = styled.div`
   padding: 10px;
 `;
 
-export const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-`;
-
-export const EditButton = styled(Button)`
-  background-color: ${({ theme }) => theme.colors.green_6};
-  border: none;
-  color: ${({ theme }) => theme.colors.white};
-  margin-right: 3px;
-
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.green_7} !important;
-    color: ${({ theme }) => theme.colors.white} !important;
-  }
-`;
-
-export const DeleteButton = styled(Button)`
-  background-color: ${({ theme }) => theme.colors.red_6};
-  border: none;
-  color: ${({ theme }) => theme.colors.white};
-  margin-left: 3px;
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.red_7} !important;
-    color: ${({ theme }) => theme.colors.white} !important;
-  }
+export const CardMeta = styled(Meta)`
+  height: 50px;
 `;

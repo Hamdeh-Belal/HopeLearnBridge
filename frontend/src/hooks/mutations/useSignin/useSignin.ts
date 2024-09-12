@@ -13,10 +13,11 @@ export const useSignin = () => {
     },
     onSuccess: (responseData) => {
       const userRole = responseData.role;
+      localStorage.setItem('role', userRole);
       if (userRole === UserRole.Teacher) {
-        navigate('/teacher');
+        navigate('/teacher', {state: {userRole: UserRole.Teacher}, replace: true});
       } else if (userRole === UserRole.Student) {
-        navigate('/student');
+        navigate('/student', {state: {userRole: UserRole.Student}, replace: true});
       }
     },
   });

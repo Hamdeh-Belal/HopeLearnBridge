@@ -14,6 +14,7 @@ import Student from './pages/student/Student';
 import Signin from './pages/signin';
 import Profile from './pages/profile';
 import SendEmail from './pages/sendemail/SendEmail';
+import NotAuth from './pages/unauthorized/UnAuth';
 
 const queryClient = new QueryClient();
 
@@ -37,6 +38,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
             <Route path="/sign-up" element={<Signup />} />
             <Route path="/sign-in" element={<Signin />} />
             <Route path="/send-email" element={<SendEmail />} />
+            <Route path="/not-authorized" element={<NotAuth />} />
         </Routes>
         </BrowserRouter>
       </QueryClientProvider>
