@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Authorization;
 using HopeLearnBridge.Models.Request;
 using HopeLearnBridge.Handlers;
 using Microsoft.AspNetCore.Mvc;
 using HopeLearnBridge.Models;
+using System.Security.Claims;
 
 namespace HopeLearnBridge.Controllers
 {
@@ -17,16 +19,37 @@ namespace HopeLearnBridge.Controllers
             _coursesHandler = coursesHandler;
         }
 
-        [HttpGet]
+        [HttpGet("getCourses")]
+        [Authorize]
         public async Task<ActionResult<List<Course>>> GetCourses()
         {
-            return await _coursesHandler.GetCourses();
+            var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
+            var userId = User.FindFirst("Id")?.Value;
+            if (userRole == "Teacher")
+            {
+                return await _coursesHandler.GetCoursesByTeacherId(userId ?? string.Empty);
+            }
+            else if (userRole == "Student")
+            {
+                return await _coursesHandler.GetCourses();
+            }
+            else
+            {
+                return Forbid("Unauthorized access.");
+            }
         }
 
-        [HttpPost]
+        [HttpPost("createCourse")]
+        [Authorize(Roles = "Teacher")]
         public async Task<ActionResult<Course>> CreateCourse(CreateCourseRequest createCourseRequest)
         {
-            var course = await _coursesHandler.CreateCourse(createCourseRequest);
+            var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
+            if (userRole != "Teacher")
+            {
+                return BadRequest("Only teachers can create courses");
+            }
+            var teacherId = User.FindFirst("Id")?.Value;
+            var course = await _coursesHandler.CreateCourse(createCourseRequest, teacherId ?? string.Empty);
             return CreatedAtAction(nameof(GetCourse), new { id = course.id }, course);
         }
 

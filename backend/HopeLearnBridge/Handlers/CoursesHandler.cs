@@ -18,14 +18,19 @@ namespace HopeLearnBridge.Handlers
             return await _dataStorage.GetItemsAsync<Course>(DataStorageConstants.CourseContainerName, c => true);
         }
 
-        public async Task<Course> CreateCourse(CreateCourseRequest createCourseRequest)
+        public async Task<List<Course>> GetCoursesByTeacherId(string teacherId)
+        {
+            return await _dataStorage.GetItemsAsync<Course>(DataStorageConstants.CourseContainerName, c => c.UserId == teacherId);
+        }
+
+        public async Task<Course> CreateCourse(CreateCourseRequest createCourseRequest ,string teacherId)
         {
             var course = new Course
             {
                 id = Guid.NewGuid().ToString(),
                 Title = createCourseRequest.Title,
                 Description = createCourseRequest.Description,
-                UserId = createCourseRequest.UserId
+                UserId = teacherId
             };
 
             try
