@@ -13,6 +13,7 @@ import Signup from './pages/signup';
 import Student from './pages/student/Student';
 import Signin from './pages/signin';
 import Profile from './pages/profile';
+import SendEmail from './pages/sendemail/SendEmail';
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
             </Route>
             <Route path="/sign-up" element={<Signup />} />
             <Route path="/sign-in" element={<Signin />} />
+            <Route path="/send-email" element={<SendEmail />} />
         </Routes>
         </BrowserRouter>
       </QueryClientProvider>
