@@ -10,11 +10,12 @@ import {
   SignupFormContainer,
   SignupTitle,
 } from './SignupForm.style';
-import { Col, Form, Input, Row, Select } from 'antd';
+import { Col, Form, Input, Row, Select, Typography } from 'antd';
 import { useForm } from 'react-hook-form';
 import { SignupFormData } from '../../services/api/signupApi';
 import { useSignup } from '../../hooks/mutations/useSignup/useSignup';
 import StatusRendering from '../statusRendering';
+import { Link } from 'react-router-dom';
 
 const SignupForm: FC<SignupFormProps> = ({ className }) => {
   const { register } = useForm<SignupFormData>();
@@ -110,6 +111,10 @@ const SignupForm: FC<SignupFormProps> = ({ className }) => {
             Sign Up
           </SignupButton>
         </Form>
+        <Typography>
+          Already have an account?
+          <Link to="/sign-in">Sign-in</Link>
+        </Typography>
       </SignupFormContainer>
     </StatusRendering>
   );
