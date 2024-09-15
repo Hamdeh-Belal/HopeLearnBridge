@@ -1,0 +1,54 @@
+name: $(TeamProject)_$(Build.DefinitionName)_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:r)
+
+trigger:
+  batch: true
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - infra/*
+
+parameters: # parameters are shown up in ADO UI in a build queue time
+  - name: environment
+    displayName: Environment to provision
+    type: string
+    default: development
+    values:
+      - development
+
+stages:
+  - stage: provision
+    displayName: "Provision"
+    jobs:
+    - job: provision_${{parameters.environment}}
+      pool:
+        vmImage: 'windows-latest'
+      steps:
+      - script: echo '$(Build.BuildNumber)' # outputs customized build number like project_def_master_20200828.1
+
+      - task: setup-azd@0 
+        displayName: Install azd
+
+      - task: PowerShell@2
+        displayName: Configure AZD to Use AZ CLI Authentication.
+        inputs:
+          targetType: 'inline'
+          script: |
+            azd config set auth.useAzCliAuth "true"
+
+      - task: AzureCLI@2
+        displayName: Provision Infrastructure
+        inputs:
+          azureSubscription: "Ghabin_Org"
+          scriptType: "ps"
+          scriptLocation: inlineScript
+          inlineScript: |
+            azd config set alpha.resourceGroupDeployments on
+            azd provision --environment ${{parameters.environment}} --no-prompt
+        env:
+          AZURE_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)
+          AZURE_ENV_NAME: $(AZURE_ENV_NAME)
+          AZURE_LOCATION: $(AZURE_LOCATION)
+          AZURE_RESOURCE_GROUP: $(AZURE_RESOURCE_GROUP)
+          AZD_INITIAL_ENVIRONMENT_CONFIG: $(AZD_INITIAL_ENVIRONMENT_CONFIG)

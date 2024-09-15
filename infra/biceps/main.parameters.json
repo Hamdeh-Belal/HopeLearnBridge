@@ -1,0 +1,16 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "provisionParameters": {
+      "value": {
+        "environment": "${AZURE_ENV_NAME}",
+        "environmentShortName": "${AZURE_ENV_SHORT_NAME}",
+        "locationName": "${AZURE_ENV_LOCATION_NAME}",
+        "locationShortName": "${AZURE_ENV_LOCATION_SHORT_NAME}",
+        "instance": "${AZURE_ENV_INSTANCE}",
+        "appShortName": "hlp"
+      }
+    }
+  }
+}
