@@ -16,6 +16,7 @@ import Profile from './pages/profile';
 import SendEmail from './pages/sendemail/SendEmail';
 import NotAuth from './pages/unauthorized/UnAuth';
 import ConfirmPasswordReset from './pages/confirmpasswordreset';
+import ResetPassword from './pages/resetpassword';
 
 const queryClient = new QueryClient();
 
@@ -41,6 +42,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
             <Route path="/send-email" element={<SendEmail />} />
             <Route path="/confirm-password-reset" element={<ConfirmPasswordReset />} />
             <Route path="/not-authorized" element={<NotAuth />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
         </Routes>
         </BrowserRouter>
       </QueryClientProvider>

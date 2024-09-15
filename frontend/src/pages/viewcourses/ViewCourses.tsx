@@ -15,9 +15,12 @@ import StatusRendering from '../../components/statusRendering';
 import { VIEW_COURSES_TEST_ID, ViewCoursesProps } from './ViewCourses.const';
 import { UserRole } from '../../enum/userRole';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { EnrollInCourseData } from '../../services/api/courseApi';
+import { useEnrollInCourse } from '../../hooks/mutations/userEnrollInCourse/useEnrollInCourse';
 
 const ViewCourses: FC<ViewCoursesProps> = ({ className }) => {
-  const { data: courses,isError, errorMessage, isFetching} = useViewCourses();
+  const { mutate: EnrollInCourse } = useEnrollInCourse();
+  const { data: courses, isError, errorMessage, isFetching } = useViewCourses();
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(6);
   const startIndex = (currentPage - 1) * pageSize;
@@ -28,6 +31,10 @@ const ViewCourses: FC<ViewCoursesProps> = ({ className }) => {
   const handlePaginationChange = (page: number, pageSize: number) => {
     setCurrentPage(page);
     setPageSize(pageSize);
+  };
+
+  const enroll = (courseId: EnrollInCourseData) => {
+    EnrollInCourse(courseId);
   };
 
   return (
@@ -51,7 +58,7 @@ const ViewCourses: FC<ViewCoursesProps> = ({ className }) => {
                   className="card-img"
                 >
                   {role && role === UserRole.Teacher ? (
-                    <ButtonContainer >
+                    <ButtonContainer>
                       <EditButton block icon={<EditOutlined />}>
                         Edit
                       </EditButton>
@@ -61,7 +68,9 @@ const ViewCourses: FC<ViewCoursesProps> = ({ className }) => {
                     </ButtonContainer>
                   ) : (
                     <ButtonContainer>
-                      <EnrollButton block>Enroll</EnrollButton>
+                      <EnrollButton block onClick={() => enroll({courseId: course.id})}>
+                        Enroll
+                      </EnrollButton>
                     </ButtonContainer>
                   )}
                 </CourseCard>

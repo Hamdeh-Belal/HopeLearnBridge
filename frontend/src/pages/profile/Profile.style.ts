@@ -1,4 +1,4 @@
-import { Button } from 'antd';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const ProfileContainer = styled.div`
@@ -22,10 +22,14 @@ export const ProfileInfo = styled.div`
     padding: 20px;
 `;
 
-export const ResetButton = styled(Button)`
-    margin-top: 10px;
+export const ResetButton = styled(Link)`
     background-color: ${({ theme }) => theme.colors.purple_6};
     color: ${({ theme }) => theme.colors.white};
-    border: none;
+    text-decoration: none;
+    padding: 8px;
+    border-radius: 5px;
 
+    &:hover{
+        background-color: ${({ theme }) => theme.colors.purple_7};
+    }
 `;
