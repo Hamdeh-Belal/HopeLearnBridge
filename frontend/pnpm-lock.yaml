@@ -20,12 +20,6 @@ importers:
       axios:
         specifier: ^1.7.5
         version: 1.7.5
-      cross-env:
-        specifier: ^7.0.3
-        version: 7.0.3
-      dotenv:
-        specifier: ^16.4.5
-        version: 16.4.5
       jwt-decode:
         specifier: ^4.0.0
         version: 4.0.0
@@ -1311,11 +1305,6 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     hasBin: true
 
-  cross-env@7.0.3:
-    resolution: {integrity: sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==}
-    engines: {node: '>=10.14', npm: '>=6', yarn: '>=1'}
-    hasBin: true
-
   cross-spawn@7.0.3:
     resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
     engines: {node: '>= 8'}
@@ -1438,10 +1427,6 @@ packages:
 
   dot-case@3.0.4:
     resolution: {integrity: sha512-Kv5nKlh6yRrdrGvxeJ2e5y2eRUpkUosIW4A2AS38zwSz27zu7ufDwQPi5Jhs3XAlGNetl3bmnGhQsMtkKJnj3w==}
-
-  dotenv@16.4.5:
-    resolution: {integrity: sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==}
-    engines: {node: '>=12'}
 
   ejs@3.1.10:
     resolution: {integrity: sha512-UeJmFfOrAQS8OJWPZ4qtgHyWExa088/MtK5UEyoJGFH67cDEXkZSviOiKRCZ4Xij0zxI3JECgYs3oKx+AizQBA==}
@@ -4659,10 +4644,6 @@ snapshots:
       - supports-color
       - ts-node
 
-  cross-env@7.0.3:
-    dependencies:
-      cross-spawn: 7.0.3
-
   cross-spawn@7.0.3:
     dependencies:
       path-key: 3.1.1
@@ -4771,8 +4752,6 @@ snapshots:
     dependencies:
       no-case: 3.0.4
       tslib: 2.6.3
-
-  dotenv@16.4.5: {}
 
   ejs@3.1.10:
     dependencies:

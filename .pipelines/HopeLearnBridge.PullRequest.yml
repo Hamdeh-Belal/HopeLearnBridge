@@ -1,4 +1,7 @@
-name: $(TeamProject)_$(Build.DefinitionName)_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:r)
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
 
 trigger:
   none
@@ -8,8 +11,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  backendSolutionpath: 'src/backend/HopeLearnBridge.sln'
-  frontendPath: 'src/frontend'
+  Solutionpath: 'backend/HopeLearnBridge.sln'
 
 stages:
 - stage: BackendBuild
@@ -24,12 +26,12 @@ stages:
     - task: DotNetCoreCLI@2
       inputs:
         command: restore
-        projects: '$(backendSolutionpath)'
+        projects: '$(Solutionpath)'
 
     - task: DotNetCoreCLI@2
       inputs:
         command: build
-        projects: '$(backendSolutionpath)'
+        projects: '$(Solutionpath)'
         arguments: '--configuration $(buildConfiguration) --no-restore'
 
 - stage: FrontendBuild
@@ -45,7 +47,6 @@ stages:
       displayName: 'Install pnpm'
       inputs:
         targetType: 'inline'
-        workingDirectory: '$(frontendPath)'
         script: |
           corepack enable
           corepack prepare pnpm@20.16.0 --activate
@@ -55,25 +56,22 @@ stages:
       displayName: 'Install frontend packages'
       inputs:
         targetType: 'inline'
-        workingDirectory: '$(frontendPath)'
         script: |
           pnpm install
+        workingDirectory: 'frontend'
 
     - task: PowerShell@2
       displayName: 'Linting'
       inputs:
         targetType: 'inline'
-        workingDirectory: '$(frontendPath)'
         script: |
           pnpm run lint
+        workingDirectory: 'frontend'
 
     - task: PowerShell@2
       displayName: 'Building frontend repo'
       inputs:
         targetType: 'inline'
-        workingDirectory: '$(frontendPath)'
         script: |
-          pnpm run build:dev
-
-    - bash: az bicep build --file infra/biceps/main.bicep --outfile infra/mainTemplate.json
-      displayName: "Building Biceps"
+          pnpm run build
+        workingDirectory: 'frontend'

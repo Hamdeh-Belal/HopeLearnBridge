@@ -1,8 +1,7 @@
 import axios from 'axios';
-import config from '../../config';
 
 const axiosInstance = axios.create({
-  baseURL: `${config.backendApiBaseUrl}/api/v1/`,
+  baseURL: 'http://localhost:5256/api/v1/',
   headers: {
     'Content-Type': 'application/json',
   },

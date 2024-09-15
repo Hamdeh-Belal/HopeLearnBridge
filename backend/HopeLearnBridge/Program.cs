@@ -39,11 +39,13 @@ builder.Services.AddApiVersioning(options =>
     options.ReportApiVersions = true;
 });
 builder.Services.AddSingleton<IDataStorage, CosmosDataStorage>();
-builder.Services.AddSingleton(sp =>
+builder.Services.AddSingleton<CosmosClient>(sp =>
 {
     var configuration = sp.GetRequiredService<IConfiguration>();
-    var cosmosDBConnectionString = configuration["Cosmos:DB:ConnectionString"];
-    return new CosmosClient(cosmosDBConnectionString);
+    var cosmosDbConfig = configuration.GetSection("CosmosDB");
+    var account = cosmosDbConfig["Account"];
+    var key = cosmosDbConfig["Key"];
+    return new CosmosClient(account, key);
 });
 builder.Services.AddSingleton<ICoursesHandler, CoursesHandler>();
 builder.Services.AddSingleton<IUsersHandler, UsersHandler>();
@@ -63,6 +65,15 @@ builder.Services.AddCors(options =>
                 .AllowAnyMethod();
         });
     }
+    else
+    {
+        options.AddPolicy("HopeLearnBridgeCloudPolicy", policy =>
+        {
+            policy.WithOrigins("http://localhost:5173")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+    }
 });
 
 var app = builder.Build();
@@ -75,7 +86,7 @@ if (isLocal)
 
 app.UseHttpsRedirection();
 
-app.UseCors();
+app.UseCors(isLocal ? "HopeLearnBridgeLocalPolicy" : "HopeLearnBridgeCloudPolicy");
 
 app.UseAuthentication();
 app.UseAuthorization();
