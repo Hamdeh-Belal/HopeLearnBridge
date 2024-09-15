@@ -46,6 +46,7 @@
     "ts-jest": "^29.2.4",
     "typescript": "^5.5.4",
     "vite": "^5.4.0",
+    "vite-plugin-mkcert": "^1.17.6",
     "vite-plugin-svgr": "^4.2.0"
   }
 }

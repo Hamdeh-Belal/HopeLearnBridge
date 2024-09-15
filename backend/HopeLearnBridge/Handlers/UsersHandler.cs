@@ -146,7 +146,7 @@ namespace HopeLearnBridge.Handlers
 
         public async Task SendPasswordResetEmailAsync(string email, string resetToken)
         {
-            var resetLink = $"http://localhost:5173/confirm-password-reset?token={resetToken}";
+            var resetLink = $"https://localhost:7291/confirm-password-reset?token={resetToken}";
             var message = $"Please use the following link to reset your password: {resetLink}";
             try
             {
