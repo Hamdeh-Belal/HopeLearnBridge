@@ -7,7 +7,7 @@ import {
   ConfirmPasswordResetContainer,
 } from './ConfirmPasswordReset.style';
 import { CONFIRM_PASSWORD_RESET_TEST_ID, ConfirmPasswordResetProps } from './ConfirmPasswordReset.const';
-import ConfirmPasswordResetForm from '../../components/confirmpasswordresetform copy/ConfirmPasswordResetForm';
+import ConfirmPasswordResetForm from '../../components/confirmpasswordresetform';
 import { useSearchParams } from 'react-router-dom';
 const ConfirmPasswordReset: FC<ConfirmPasswordResetProps> = ({ className }) => {
   const [searchParams] = useSearchParams();

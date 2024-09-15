@@ -9,14 +9,12 @@ interface AuthCheckProps {
 export const useAuthCheck = ({ allowedRoles }: AuthCheckProps) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
   const [isAuthorized, setIsAuthorized] = useState<boolean>(true);
-  const [role, setRole] = useState<UserRole>();
   const navigate = useNavigate();
 
   useEffect(() => {
     const storedRole = localStorage.getItem('role') as UserRole;
     if (storedRole) {
       setIsAuthenticated(true);
-      setRole(storedRole);
 
       if (allowedRoles.includes(storedRole)) {
         setIsAuthorized(true);
@@ -30,5 +28,5 @@ export const useAuthCheck = ({ allowedRoles }: AuthCheckProps) => {
     }
   }, [allowedRoles, navigate]);
 
-  return { isAuthenticated, isAuthorized, role };
+  return { isAuthenticated, isAuthorized };
 };
