@@ -1,26 +1,18 @@
-import {
-  ButtonContainer,
-  CardCover,
-  DeleteButton,
-  EditButton,
-  StyledCard,
-} from './CourseCard.style';
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { CardCover, CardMeta, StyledCard } from './CourseCard.style';
 import {
   CARD_DEFAULT_IMG_TEST_ID,
   CARD_IMG_TEST_ID,
   CARD_TEST_ID,
   CourseCardProps,
 } from './CourseCard.const';
-import { Card } from 'antd';
 import { FC } from 'react';
 import DefaultImg from '../../images/book.svg?react';
-const { Meta } = Card;
 
 const CourseCard: FC<CourseCardProps> = ({
   title,
   description,
   cardImg: CardImg,
+  children,
   className,
 }) => {
   return (
@@ -39,15 +31,8 @@ const CourseCard: FC<CourseCardProps> = ({
         </CardCover>
       }
     >
-      <Meta title={title} description={description} />
-      <ButtonContainer>
-        <EditButton block>
-          <EditOutlined />
-        </EditButton>
-        <DeleteButton block>
-          <DeleteOutlined />
-        </DeleteButton>
-      </ButtonContainer>
+      <CardMeta title={title} description={description} />
+      {children}
     </StyledCard>
   );
 };

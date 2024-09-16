@@ -1,9 +1,10 @@
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 
 export interface CourseCardProps {
     title: string;
     description: string;
     cardImg?:FC<{ className?: string }>;
+    children?: ReactNode;
     className?:string;
 }
 

@@ -14,7 +14,7 @@ import LoadingScreen from '../loadingScreen';
 import LoadingError from '../loadingerror';
 
 const CreateCourse = () => {
-  const { register,handleSubmit } = useForm<CourseFormData>();
+  const { register } = useForm<CourseFormData>();
   const { mutate, isPending, isError, errorMessage, reset } = useCreateCourse();
 
   const onSubmit = (data: CourseFormData) => {
@@ -32,7 +32,7 @@ const CreateCourse = () => {
   return (
     <CreateCourseContainer data-testid={CREATE_COURSE_ID}>
       <CreateCourseHeader>Create a New Course!</CreateCourseHeader>
-      <StyledForm layout="vertical" onFinish={handleSubmit(onSubmit)}>
+      <StyledForm layout="vertical" onFinish={ onSubmit }>
         <Label name="title" label="Title:">
           <Input placeholder="Title" {...register('title')} />
         </Label>

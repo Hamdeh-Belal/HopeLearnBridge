@@ -25,7 +25,7 @@ namespace HopeLearnBridge.Handlers
                 {
                     new Claim("Id", user.id ?? string.Empty),
                     new Claim(JwtRegisteredClaimNames.Email, user.Email  ?? string.Empty),
-                    new Claim("role", user.Role.ToString()),
+                    new Claim(ClaimTypes.Role, user.Role.ToString()),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(10),

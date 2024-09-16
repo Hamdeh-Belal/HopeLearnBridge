@@ -1,6 +1,9 @@
+using Microsoft.AspNetCore.Authorization;
 using HopeLearnBridge.Handlers;
 using Microsoft.AspNetCore.Mvc;
 using HopeLearnBridge.Models;
+using System.Security.Claims;
+using HopeLearnBridge.Models.Request;
 
 namespace HopeLearnBridge.Controllers
 {
@@ -16,10 +19,19 @@ namespace HopeLearnBridge.Controllers
             _studentsHandler = studentsHandler;
         }
 
-        [HttpPost]
-        public async Task<ActionResult<Course>> EnrollInCourse(string studentId, string courseId)
+        [HttpPost("enrollInCourse")]
+        [Authorize(Roles = "Student")]
+        public async Task<ActionResult<Course>> EnrollInCourse(EnrollCourseRequest enrollCourseRequest)
         {
-            return await _studentsHandler.EnrollInCourse(studentId, courseId);
+            try
+            {
+                var studentId = User.FindFirst("Id")?.Value;
+                return await _studentsHandler.EnrollInCourse(studentId ?? string.Empty, enrollCourseRequest.CourseId);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

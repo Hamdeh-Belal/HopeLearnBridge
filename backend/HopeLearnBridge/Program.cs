@@ -50,30 +50,10 @@ builder.Services.AddSingleton<CosmosClient>(sp =>
 builder.Services.AddSingleton<ICoursesHandler, CoursesHandler>();
 builder.Services.AddSingleton<IUsersHandler, UsersHandler>();
 builder.Services.AddSingleton<IJwtHandler, JwtHandler>();
+builder.Services.AddSingleton<IEmailHandler, EmailHandler>();
 builder.Services.AddSingleton<IStudentsHandler, StudentsHandler>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddCors(options =>
-{
-    if (isLocal)
-    {
-        options.AddPolicy("HopeLearnBridgeLocalPolicy", policy =>
-        {
-            policy.AllowAnyOrigin()
-                .AllowAnyHeader()
-                .AllowAnyMethod();
-        });
-    }
-    else
-    {
-        options.AddPolicy("HopeLearnBridgeCloudPolicy", policy =>
-        {
-            policy.WithOrigins("http://localhost:5173")
-                .AllowAnyHeader()
-                .AllowAnyMethod();
-        });
-    }
-});
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
@@ -81,11 +61,16 @@ if (isLocal)
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseCors(builder =>
+    {
+        builder
+        .AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+    });
 }
 
 app.UseHttpsRedirection();
-
-app.UseCors(isLocal ? "HopeLearnBridgeLocalPolicy" : "HopeLearnBridgeCloudPolicy");
 
 app.UseAuthentication();
 app.UseAuthorization();
