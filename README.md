@@ -71,16 +71,6 @@
 
 ---
 
-## 🔐 Environment Configuration
-
-Sensitive information such as API keys and connection strings are managed through environment variables. Ensure the following files are configured:
-
-- **Backend**: `backend/HopeLearnBridge/appsettings.json`
-    
-- **Frontend**: `frontend/.env`
-    
----
-
 ## 🛠️ Technologies Used
 
 - **Frontend**: React, Redux, Tailwind CSS
